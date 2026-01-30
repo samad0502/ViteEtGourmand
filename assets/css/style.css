@@ -1,0 +1,14 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background-image: url('/vite-gourmand/assets/img/header.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.card {
+  border-radius: 10px;
+}
+
