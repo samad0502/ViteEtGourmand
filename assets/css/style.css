@@ -10,5 +10,39 @@ header {
 
 .card {
   border-radius: 10px;
+font-family: Gorditas; 
+font-size: 20px;
+color: white;
+ 
+}
+
+.title {
+color: #660909;
+ font-family: "EB Garamond", serif;
+  font-optical-sizing: auto;
+  font-weight: weight;
+  font-style: normal;
+  
+}
+
+.display-4{
+  width: 454px;
+  height: 80px;
+  color: white;
+  background-color: #660909;
+  font-family: "EB Garamond", serif;
+  font-optical-sizing: auto;
+  font-weight: weight;
+  font-style: normal;
+  display: flexbox;
+  justify-content: center;
+}
+
+.card-text {
+   font-family: "EB Garamond", serif;
+  font-optical-sizing: auto;
+  font-weight: weight;
+  font-style: normal;
+  color: white;
 }
 
