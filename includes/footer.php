@@ -30,7 +30,7 @@
             </div>
 
             <div class="text-end py-2">
-                <a href="#" class="text-light">Accueil</a>
+                <a href="/" class="text-light">Accueil</a>
                 <a href="#" class="text-light">Contact</a>
                 <a href="#" class="text-light me-3">Mentions légales</a>
                 <a href="#" class="text-light">CGV</a>

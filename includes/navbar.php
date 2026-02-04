@@ -11,19 +11,19 @@
         <div class="collapse navbar-collapse" id="menuNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/vite-gourmand/index.php"><i class="bi bi-house-fill" style="color:white; font: size 10px;"></i>
+                    <a class="nav-link" href="/index.php"><i class="bi bi-house-fill" style="color:white; font: size 10px;"></i>
                         Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/vite-gourmand/menus.php"><i class="bi bi-fork-knife" style="color:white; font: size 10px;"></i>
+                    <a class="nav-link" href="/menus.php"><i class="bi bi-fork-knife" style="color:white; font: size 10px;"></i>
                         Menus</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/vite-gourmand/contact.php"><i class="bi bi-envelope-fill" style="color:white; font: size 10px;"></i>
+                    <a class="nav-link" href="/contact.php"><i class="bi bi-envelope-fill" style="color:white; font: size 10px;"></i>
                         Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/vite-gourmand/auth/login.php"><i class="bi bi-person-fill" style="color:white; font: size 10px;"></i>
+                    <a class="nav-link" href="/auth/login.php"><i class="bi bi-person-fill" style="color:white; font: size 10px;"></i>
                         Connexion</a>
                 </li>
             </ul>

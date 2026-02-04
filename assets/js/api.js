@@ -11,3 +11,13 @@ function fetchMenus(filters = {}) {
   return fetch('ajax/menus.php?' + query)
     .then(response => response.json());
 }
+
+
+
+/**
+ * Récupère le détail d’un menu
+ */
+function fetchMenuDetail(id) {
+  return fetch('ajax/menu_detail.php?id=' + id)
+    .then(res => res.json());
+}
