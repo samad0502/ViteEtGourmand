@@ -2,68 +2,63 @@
 
 /**
  * Page principale d’affichage des menus
- * Aucun SQL ici, uniquement du HTML
+
  */
+
 include 'includes/header.php';
 include 'includes/navbar.php';
 ?>
 
 <div class="container my-5">
 
-    <h1 class="mb-4">Nos menus</h1>
-
+    <h1 class="mb-4"><i class="bi bi-fork-knife"></i>Nos menus</h1>
+    <img class="rounded mx-auto d-block pt-2" src="/assets/img/imgMenu.jpg" alt="imgMenu" width="100%" height="500px">
 
     <!-- ZONE DES FILTRES -->
 
-    <div class="row g-2 mb-4">
+    <!-- Filtres des menus -->
+    <form id="filtersForm" class="row mb-4 pt-4">
 
-        <div class="col">
-            <input type="number" id="prixMin" class="form-control" placeholder="Prix minimum">
+        <!-- Prix minimum -->
+        <div class="col-md-2">
+            <input type="number" class="form-control"
+                id="priceMin" placeholder="Prix min">
         </div>
 
-        <div class="col">
-            <input type="number" id="prixMax" class="form-control" placeholder="Prix maximum">
+        <!-- Prix maximum -->
+        <div class="col-md-2">
+            <input type="number" class="form-control"
+                id="priceMax" placeholder="Prix max">
         </div>
 
-        <div class="col">
-            <select id="fourchette" class="form-control">
-                <option value="">Fourchette prix</option>
-                <option value="0-50">0 - 50 €</option>
-                <option value="50-100">50 - 100 €</option>
-                <option value="100-200">100 - 200 €</option>
-            </select>
+        <!-- Nombre minimum de personnes -->
+        <div class="col-md-3">
+            <input type="number" class="form-control"
+                id="minPeople" placeholder="Personnes minimum">
         </div>
 
-        <div class="col">
-            <input type="number" id="personnesMin" class="form-control" placeholder="Personnes minimum">
-        </div>
-
-        <div class="col">
+        <!-- Thème -->
+        <div class="col-md-2">
             <select id="theme" class="form-control">
-                <option value="">Thème</option>
-                <option value="mariage">Mariage</option>
-                <option value="noel">Noël</option>
+                <option value="">Tous les thèmes</option>
             </select>
         </div>
 
-        <div class="col">
-            <select id="regime" class="form-control">
-                <option value="">Régime</option>
-                <option value="vegetarien">Végétarien</option>
-                <option value="halal">Halal</option>
+        <!-- Régime -->
+        <div class="col-md-2">
+            <select id="diet" class="form-control">
+                <option value="">Tous les régimes</option>
             </select>
         </div>
 
-        <div class="col">
-            <button id="btnFiltrer" class="btn btn-primary w-100">
+        <!-- Bouton -->
+        <div class="col-md-1">
+            <button class="btn btn-info w-100">
                 Filtrer
             </button>
         </div>
 
-    </div>
-
-
-    <!-- ZONE D’AFFICHAGE -->
+    </form>
 
     <div class="row" id="menusContainer"></div>
 
@@ -74,6 +69,8 @@ include 'includes/navbar.php';
 <script src="assets/js/menus.js"></script>
 <script src="assets/js/filters.js"></script>
 <script src="assets/js/main.js"></script>
+
+
 </body>
 
 </html>

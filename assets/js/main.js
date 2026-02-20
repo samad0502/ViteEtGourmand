@@ -1,8 +1,8 @@
 /**
- * Point d’entrée JavaScript
- * Appelé quand la page est chargée
+ * main.js
+ * Point d'entrée global du front
  */
+
 document.addEventListener('DOMContentLoaded', () => {
-  loadMenus();    // Chargement initial
-  initFilters();  // Initialisation des filtres
+  loadMenus(); // chargement initial sans filtres
 });

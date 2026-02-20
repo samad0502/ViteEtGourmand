@@ -1,0 +1,24 @@
+# 1. Empêcher de lister le contenu des dossiers si l'index est absent
+
+Options -Indexes
+
+# 2. Bloquer l'accès aux fichiers sensibles
+
+<Files .env>
+Order allow,deny
+Deny from all
+</Files>
+
+<Files "composer.json">
+Order allow,deny
+Deny from all
+</Files>
+
+<Files "composer.lock">
+Order allow,deny
+Deny from all
+</Files>
+
+# 3. Forcer l'encodage UTF-8
+
+AddDefaultCharset UTF-8

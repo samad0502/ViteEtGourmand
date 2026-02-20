@@ -2,79 +2,129 @@
 
 /**
  * Classe Menu
- * Contient la logique métier liée aux menus
+ * Gère toutes les opérations liées aux menus
  */
 
-require_once 'Database.php';
+require_once __DIR__ . '/database.php';
 
 class Menu
 {
+    /**
+     * Instance PDO
+     */
+    private PDO $pdo;
 
-    private $pdo;
-
+    /**
+     * Constructeur
+     * Initialise la connexion à la base de données
+     */
     public function __construct()
     {
         $this->pdo = Database::getConnection();
     }
 
     /**
-     * Retourne les menus selon les filtres
+     * Récupère tous les menus (sans filtres)
+     * Utilisé au chargement initial
      */
-    public function getAll(array $filters)
+    public function getAllMenus(): array
     {
+        $sql = "SELECT * FROM menus ORDER BY created_at DESC";
+        $stmt = $this->pdo->query($sql);
+        $menus = $stmt->fetchAll();
 
+        foreach ($menus as &$menu) {
+            // Découpe les images
+            $images = explode(',', $menu['image']);
+
+            // Image principale = première image
+            $menu['main_image'] = trim($images[0]);
+        }
+
+        return $menus;
+    }
+
+
+    /**
+     * Récupère les menus avec filtres
+     * Utilisé par l'AJAX
+     */
+    public function getFilteredMenus(array $filters): array
+    {
         $sql = "SELECT * FROM menus WHERE 1=1";
         $params = [];
 
-        if ($filters['prixMin']) {
-            $sql .= " AND prix >= ?";
-            $params[] = $filters['prixMin'];
+        // Filtre prix minimum
+        if (!empty($filters['priceMin'])) {
+            $sql .= " AND price >= ?";
+            $params[] = $filters['priceMin'];
         }
 
-        if ($filters['prixMax']) {
-            $sql .= " AND prix <= ?";
-            $params[] = $filters['prixMax'];
+        // Filtre prix maximum
+        if (!empty($filters['priceMax'])) {
+            $sql .= " AND price <= ?";
+            $params[] = $filters['priceMax'];
         }
 
-        if ($filters['fourchette']) {
-            [$min, $max] = explode('-', $filters['fourchette']);
-            $sql .= " AND prix BETWEEN ? AND ?";
-            $params[] = $min;
-            $params[] = $max;
+        // Filtre nombre minimum de personnes
+        if (!empty($filters['minPeople'])) {
+            $sql .= " AND min_people >= ?";
+            $params[] = $filters['minPeople'];
         }
 
-        if ($filters['personnesMin']) {
-            $sql .= " AND personnes >= ?";
-            $params[] = $filters['personnesMin'];
-        }
-
-        if ($filters['theme']) {
-            $sql .= " AND theme = ?";
+        // Filtre thème
+        if (!empty($filters['theme'])) {
+            $sql .= " AND theme_id = ?";
             $params[] = $filters['theme'];
         }
 
-        if ($filters['regime']) {
-            $sql .= " AND regime = ?";
-            $params[] = $filters['regime'];
+        // Filtre régime
+        if (!empty($filters['diet'])) {
+            $sql .= " AND diet_id = ?";
+            $params[] = $filters['diet'];
         }
 
+        // Exécution de la requête
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        //  on récupère les menus
+        $menus = $stmt->fetchAll();
+
+        //  on ajoute l’image principale à chaque menu
+        foreach ($menus as &$menu) {
+            $images = explode(',', $menu['image']);
+            $menu['main_image'] = trim($images[0]);
+        }
+
+        //  on retourne les menus enrichis
+        return $menus;
     }
 
-    /**
-     * Retourne un menu par son identifiant
-     */
-    public function getById(int $id)
-    {
 
-        $stmt = $this->pdo->prepare(
-            "SELECT * FROM menus WHERE id = ?"
-        );
+    /**
+     * Récupère un menu par son ID
+     * Utilisé pour la page menu_detail.php
+     */
+    public function getMenuById(int $id): array|false
+    {
+        $sql = "SELECT * FROM menus WHERE id = ?";
+        $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$id]);
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $menu = $stmt->fetch();
+
+        if (!$menu) {
+            return false;
+        }
+
+        //  TRANSFORMATION DES IMAGES POUR LE CAROUSEL
+        // On transforme "img1.jpg,img2.jpg" → tableau JS
+        $menu['images'] = array_map(
+            'trim',
+            explode(',', $menu['image'])
+        );
+
+        return $menu;
     }
 }

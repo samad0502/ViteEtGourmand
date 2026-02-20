@@ -1,23 +1,30 @@
 /**
- * Fichier responsable des appels AJAX
- * Communique avec le backend PHP
+ * api.js
+ * Centralise tous les appels AJAX vers le backend
+ */
+
+/**
+ * Récupère les menus (avec ou sans filtres)
  */
 function fetchMenus(filters = {}) {
+  const params = new URLSearchParams(filters).toString();
 
-  // Transformation de l’objet en query string
-  const query = new URLSearchParams(filters).toString();
-
-  // Appel AJAX vers le backend
-  return fetch('ajax/menus.php?' + query)
+  return fetch('ajax/menus.php?' + params)
     .then(response => response.json());
 }
 
-
+/**
+ * Récupère le détail d'un menu
+ */
+function fetchMenuById(id) {
+  return fetch('ajax/menu_detail.php?id=' + id)
+    .then(response => response.json());
+}
 
 /**
- * Récupère le détail d’un menu
+ * Récupère les thèmes et régimes
  */
-function fetchMenuDetail(id) {
-  return fetch('ajax/menu_detail.php?id=' + id)
-    .then(res => res.json());
+function fetchFilters() {
+  return fetch('ajax/filters.php')
+    .then(response => response.json());
 }

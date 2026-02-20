@@ -1,22 +1,43 @@
-<?php require 'includes/header.php'; ?>
-<?php require 'includes/navbar.php'; ?>
+<?php
+ob_start();
+require 'includes/header.php';
+require 'includes/navbar.php';
 
-<header class="bg-light py-5">
+
+require_once 'classes/database.php';
+$database = new Database();
+$db = $database->getConnection();
+
+
+$stmt = $db->query("
+    SELECT r.*, u.firstname, m.title as menu_title
+    FROM reviews r
+    JOIN users u ON r.user_id = u.id
+    JOIN orders o ON r.order_id = o.id
+    JOIN menus m ON o.menu_id = m.id
+    WHERE r.is_published = 1
+    ORDER BY r.created_at DESC
+    LIMIT 3
+");
+$reviews = $stmt->fetchAll();
+?>
+
+<header class=" py-5 ">
     <div class="container text-center">
         <div class="container display-4">
             <h1>Vite & Gourmand</h1>
             <p class="lead">Traiteur événementiel à Bordeaux depuis 25 ans</p>
         </div>
-        <img class="rounded mx-auto d-block pt-2" src="/assets/img/imgAcc/imageAcc1.jpg" alt="image" width="100%" height="338px">
-        <a href="menus.php" class="btn btn-primary btn-lg mt-3">Decouvrez nos menus</a>
+        <img class="rounded mx-auto d-block pt-2" src="/assets/img/imgAcc/imageAcc1.jpg" alt="imageAcc1" width="100%" height="338px">
+        <a href="/menus.php" class="btn btn-primary btn-lg mt-5">Decouvrez nos menus</a>
     </div>
 </header>
 
 <div class="container my-5">
     <h2 class="row col-md-4 ms-auto title">QUI SOMMES-NOUS ?</h2>
-    <div class="card row flex-row">
+    <div class="card row flex-row " data-aos="flip-right">
         <img class="col-lg-6 card-img-end img-fluid p-0" src="/assets/img/imgAcc/chefs1.jpg" alt="chefs1" />
-        <div class="col-lg-6 card-body bg-secondary ">
+        <div class="col-lg-6 card-body bg-secondary text-light home-text">
             <br>
             <p>Situé dans le département de la Gironde et plus précisément dans la ville de Bordeaux ,
                 Vite & Gourmand a été fondé en 2025 par José et Julie deux amis passionnés de cuisine .</p>
@@ -32,9 +53,9 @@
 
 <div class="container my-5">
     <h2 class="title">Notre expérience de traiteur pour <br> vos évènements privés</h2>
-    <div class="card row flex-row-reverse">
+    <div class="card row flex-row-reverse" data-aos="flip-left">
         <img class="col-lg-6 card-img-end img-fluid p-0" src="/assets/img/imgAcc/imageAcc2.jpg" alt="imageAcc2" />
-        <div class="col-lg-6 card-body bg-secondary ">
+        <div class="col-lg-6 card-body bg-secondary text-light home-text">
             <br>
             <br>
             <p>Avec notre équipe de professionnels vos projets évènementiels sont garantis.</p>
@@ -50,9 +71,9 @@
 
 <div class="container my-5">
     <h2 class=" row-reverse col-md-4  ms-auto title">Nos buffets pour vos réceptions privées</h2>
-    <div class="card row flex-row ">
+    <div class="card row flex-row " data-aos="flip-right">
         <img class="col-lg-6 card-img-end img-fluid p-0" src="/assets/img/imgAcc/imageAcc3.jpg" alt="imageAcc3" />
-        <div class="col-lg-6 card-body bg-secondary ">
+        <div class="col-lg-6 card-body bg-secondary text-light home-text">
             <br>
             <p>Vite & Gourmand s’engage de rendre votre impossible possible.</p>
             <br>
@@ -69,9 +90,9 @@
 
 <div class="container my-5">
     <h2 class="title">Des repas pour vos évènements</h2>
-    <div class="card row flex-row-reverse">
+    <div class="card row flex-row-reverse" data-aos="flip-left">
         <img class="col-lg-6 card-img-end img-fluid p-0" src="/assets/img/imgAcc/imageAcc4.jpg" alt="imageAcc4" />
-        <div class="col-lg-6 card-body bg-secondary ">
+        <div class="col-lg-6 card-body bg-secondary text-light home-text">
             <br>
             <p>Nos Chefs cuisinier vous concoctent des menus sur mesure avec des produits frais .</p>
             <br>
@@ -89,9 +110,9 @@
 
 <div class="container my-5">
     <h2 class="row-reverse col-md-5  ms-auto title">Desserts & pieces montées</h2>
-    <div class="card row flex-row">
+    <div class="card row flex-row" data-aos="flip-right">
         <img class="col-lg-6 card-img-end img-fluid p-0" src="/assets/img/imgAcc/imageAcc5.jpg" alt="imageAcc5" />
-        <div class="col-lg-6 card-body bg-secondary ">
+        <div class="col-lg-6 card-body bg-secondary text-light home-text">
             <br>
             <p>Nos chefs pâtissiers ont le plaisir vous présenter les meilleurs desserts !</p>
             <br>
@@ -106,9 +127,9 @@
 
 <div class="container my-5">
     <h2 class="title">Cocktails Salées-Sucrées</h2>
-    <div class="card row flex-row-reverse">
+    <div class="card row flex-row-reverse" data-aos="flip-left">
         <img class="col-lg-6 card-img-end img-fluid p-0" src="/assets/img/imgAcc/imageAcc6.jpg" alt="imageAcc6" />
-        <div class="col-lg-6 card-body bg-secondary ">
+        <div class="col-lg-6 card-body bg-secondary text-light home-text">
             <br>
             <p>Pour vos réceptions des pièces cocktails sont proposées pour détendre vos convives !</p>
             <br>
@@ -122,29 +143,24 @@
     </div>
 </div>
 
-<section class="bg-light py-5">
-    <div class="container ">
-        <h2 class="text-center mb-4">Avis clients</h2>
-        <div class="row ">
-            <div class="col-md-4 ">
-                <div class=" p-3 ">
-                    <p>⭐⭐⭐⭐⭐</p>
-                    <p>Service impeccable et plats délicieux.</p>
-                </div>
-            </div>
+
+<section class="container my-5">
+    <h2 class="text-center mb-4">Ce que pensent nos clients</h2>
+    <div class="row">
+        <?php foreach ($reviews as $rev): ?>
             <div class="col-md-4">
-                <div class=" p-3">
-                    <p>⭐⭐⭐⭐</p>
-                    <p>Très bon rapport qualité/prix.</p>
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body">
+                        <div class="text-warning mb-2">
+                            <?= str_repeat('★', $rev['rating']) ?><?= str_repeat('☆', 5 - $rev['rating']) ?>
+                        </div>
+                        <p class="card-text italic">"<?= htmlspecialchars($rev['comment']) ?>"</p>
+                        <p class="small text-muted mb-0"><strong><?= htmlspecialchars($rev['firstname']) ?></strong></p>
+                        <small class="text-info">Menu : <?= htmlspecialchars($rev['menu_title']) ?></small>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class=" p-3">
-                    <p>⭐⭐⭐⭐⭐</p>
-                    <p>Livraison ponctuelle et menu excellent.</p>
-                </div>
-            </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 </section>
 

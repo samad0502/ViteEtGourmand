@@ -1,0 +1,4 @@
+# Interdire l'accès direct aux fichiers de configuration par le navigateur
+
+Order deny,allow
+Deny from all

@@ -1,21 +1,26 @@
 <?php
 
 /**
- * Contrôleur AJAX
- * Retourne le détail d’un menu en JSON
+ * Endpoint AJAX
+ * Retourne le détail d'un menu
  */
 
-require '../classes/Menu.php';
+require_once '../classes/menu.php';
 
 if (!isset($_GET['id'])) {
-    echo json_encode([]);
+    http_response_code(400);
+    echo json_encode(['error' => 'Menu ID manquant']);
     exit;
 }
 
 $menu = new Menu();
+$result = $menu->getMenuById((int) $_GET['id']);
 
-// Appel de la logique métier
-$result = $menu->getById((int) $_GET['id']);
+if (!$result) {
+    http_response_code(404);
+    echo json_encode(['error' => 'Menu introuvable']);
+    exit;
+}
 
-// Retour JSON
+header('Content-Type: application/json');
 echo json_encode($result);

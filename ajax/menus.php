@@ -1,22 +1,32 @@
 <?php
 
 /**
- * Contrôleur AJAX
- * Appelle la logique métier et retourne du JSON
+ * Endpoint AJAX
+ * Retourne les menus avec ou sans filtres
  */
 
-require '../classes/Menu.php';
+require_once '../classes/menu.php';
+
+// Récupération des filtres envoyés en GET
+$filters = [
+    'priceMin'  => $_GET['priceMin'] ?? null,
+    'priceMax'  => $_GET['priceMax'] ?? null,
+    'minPeople' => $_GET['minPeople'] ?? null,
+    'theme'     => $_GET['theme'] ?? null,
+    'diet'      => $_GET['diet'] ?? null
+];
 
 $menu = new Menu();
 
-// Récupération des filtres
-$filters = [
-    'prixMin' => $_GET['prixMin'] ?? null,
-    'prixMax' => $_GET['prixMax'] ?? null,
-    'fourchette' => $_GET['fourchette'] ?? null,
-    'personnesMin' => $_GET['personnesMin'] ?? null,
-    'theme' => $_GET['theme'] ?? null,
-    'regime' => $_GET['regime'] ?? null
-];
+// Si au moins un filtre est présent → filtrage
+if (array_filter($filters)) {
+    $result = $menu->getFilteredMenus($filters);
+}
+// Sinon → tous les menus
+else {
+    $result = $menu->getAllMenus();
+}
 
-echo json_encode($menu->getAll($filters));
+// Retour JSON
+header('Content-Type: application/json');
+echo json_encode($result);
