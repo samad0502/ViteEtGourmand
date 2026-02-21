@@ -22,7 +22,7 @@ require_once 'config/load_env.php';
 
             <section>
                 <h2>1. Éditeur du site</h2>
-                <p><strong>Responsable de publication :</strong> [Ton Prénom et Nom]</p>
+                <p><strong>Responsable de publication :</strong> JOSE ET JULIE</p>
                 <p><strong>Contact :</strong> <?php echo htmlspecialchars(getenv('MAIL_FROM')); ?></p>
             </section>
 
